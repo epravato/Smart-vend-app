@@ -1,0 +1,44 @@
+Paste this entire message into Claude Code and it will set everything up for you automatically:
+
+----------------------------------------------------------------------
+
+Please set up a local MarkItDown web app on my Windows computer by doing the following:
+
+1. Check if Python is installed. If not, tell me to install it from https://www.python.org/downloads/ and to check "Add Python to PATH" during install, then stop and wait for me to confirm it's installed.
+
+2. Clone and install the Microsoft MarkItDown repo by running:
+   git clone https://github.com/microsoft/markitdown.git
+   cd markitdown
+   pip install -e "packages/markitdown[all]"
+   pip install flask
+
+3. Create a folder called "MarkItDown" on my Desktop with two files:
+
+   app.py — a Flask server on port 5050 that:
+   - Uses the MarkItDown Python library (from markitdown import MarkItDown) to convert uploaded files
+   - Has a /convert POST endpoint that accepts a file, converts it, saves it to a history.json file with filename and date, and returns the markdown
+   - Has a /history GET endpoint that returns the history list
+   - Has a /history/<index> DELETE endpoint to remove items
+   - Auto-opens http://localhost:5050 in the browser when started using webbrowser and threading
+   - Serves index.html as the root route
+
+   index.html — a clean dark-themed drag and drop web app that:
+   - Has a sidebar on the left showing conversion history (filename + date) loaded from /history
+   - Clicking a history item reloads that conversion
+   - Has an X button on each history item to delete it
+   - Has a main area with a drag and drop zone that accepts any file
+   - Sends the file to /convert and displays the returned markdown in a textarea
+   - Has Copy and Download .md buttons
+   - Has a "Convert another" button to reset
+   - Uses purple (#7c6ef7) as the accent color
+
+4. Create a file on my Desktop called "START MarkItDown.bat" that:
+   - cd's into the MarkItDown folder on the Desktop
+   - Runs python app.py
+   - Shows a message saying "Keep this window open while using the app"
+
+5. Test that the server starts correctly.
+
+6. Tell me when everything is done and how to use it.
+
+----------------------------------------------------------------------
