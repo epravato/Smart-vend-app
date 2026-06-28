@@ -33,6 +33,11 @@ export default function MachineScreen({ route }) {
           <Text style={[styles.statusText, { color: machine.status === 'online' ? '#16a34a' : '#dc2626' }]}>
             {machine.status === 'online' ? 'Online' : 'Offline — Last seen yesterday'}
           </Text>
+          {machine.lastUpdated && (
+            <Text style={styles.syncText}>
+              · Synced {Math.round((Date.now() / 1000 - machine.lastUpdated) / 60)}m ago
+            </Text>
+          )}
         </View>
       </View>
 
@@ -80,4 +85,5 @@ const styles = StyleSheet.create({
   statusRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 },
   dot: { width: 12, height: 12, borderRadius: 6 },
   statusText: { fontSize: 15, fontWeight: '700' },
+  syncText: { fontSize: 13, color: '#94a3b8', fontWeight: '500' },
 });
