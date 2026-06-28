@@ -10,6 +10,9 @@ sed -i '' 's|href="/_expo/|href="/Smart-vend-app/_expo/|g' docs/index.html
 sed -i '' 's|src="/_expo/|src="/Smart-vend-app/_expo/|g' docs/index.html
 sed -i '' 's|href="/favicon|href="/Smart-vend-app/favicon|g' docs/index.html
 
+BUNDLE=$(ls docs/_expo/static/js/web/*.js)
+sed -i '' 's|"/assets/node_modules/|"/Smart-vend-app/assets/node_modules/|g' "$BUNDLE"
+
 echo "Adding .nojekyll..."
 touch docs/.nojekyll
 
