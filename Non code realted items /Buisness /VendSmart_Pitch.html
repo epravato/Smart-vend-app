@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VendSmart — Operator Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#EEF0F3;
+    --surface:#FFFFFF;
+    --ink:#14161B;
+    --ink-2:#2A2E37;
+    --ink-soft:#5C616E;
+    --line:#E1E4EA;
+    --line-strong:#CBD0D9;
+    --brand:#1F46D6;
+    --brand-ink:#16329C;
+    --brand-wash:#E8EDFC;
+    --red:#E5484D;
+    --amber:#F1A325;
+    --green:#2DA160;
+    --screen:#15171C;
+    --screen-2:#1E2128;
+    --radius:14px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"Space Mono",monospace}
+  .display{font-family:"Space Grotesk",sans-serif}
+  .eyebrow{
+    font-family:"Space Mono",monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brand);
+    font-weight:700;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- TOP BAR ---------- */
+  header.bar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(238,240,243,.82);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .bar-inner{
+    max-width:var(--maxw);margin:0 auto;padding:12px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand-mark{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk";font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .cube{width:26px;height:26px;flex:none}
+  nav.links{display:flex;align-items:center;gap:26px}
+  nav.links a{
+    color:var(--ink-soft);text-decoration:none;font-size:14px;font-weight:500;
+    transition:color .15s ease;
+  }
+  nav.links a:hover{color:var(--ink)}
+  .notes-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:#fff;border:none;cursor:pointer;
+    font-family:"Inter";font-size:14px;font-weight:600;
+    padding:9px 16px;border-radius:10px;transition:transform .12s ease,background .15s ease;
+  }
+  .notes-btn:hover{background:#000;transform:translateY(-1px)}
+  .notes-btn .count{
+    font-family:"Space Mono";font-size:12px;background:var(--brand);
+    padding:1px 7px;border-radius:20px;line-height:1.6;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 56px}
+  .hero-grid{display:grid;grid-template-columns:1fr 0.92fr;gap:48px;align-items:center}
+  .hero h1{
+    font-family:"Space Grotesk";font-weight:700;letter-spacing:-.025em;
+    font-size:clamp(34px,5vw,56px);line-height:1.04;margin:18px 0 20px;
+  }
+  .hero h1 .hl{color:var(--brand)}
+  .lead{font-size:18px;color:var(--ink-soft);max-width:46ch;margin-bottom:30px}
+  .readouts{display:flex;gap:14px;flex-wrap:wrap}
+  .readout{
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;min-width:150px;
+  }
+  .readout .num{font-family:"Space Grotesk";font-weight:700;font-size:26px;letter-spacing:-.02em}
+  .readout .num.red{color:var(--red)}
+  .readout .lbl{font-family:"Space Mono";font-size:11px;letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
+
+  /* ---------- MACHINE FACE (signature) ---------- */
+  .device{
+    background:var(--screen);border-radius:20px;padding:22px;
+    box-shadow:0 30px 60px -28px rgba(16,20,40,.55),0 0 0 1px rgba(255,255,255,.04) inset;
+  }
+  .device-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .device-top .name{color:#fff;font-family:"Space Grotesk";font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(45,161,96,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(45,161,96,.55)}70%{box-shadow:0 0 0 8px rgba(45,161,96,0)}100%{box-shadow:0 0 0 0 rgba(45,161,96,0)}}
+  .device-stat{font-family:"Space Mono";font-size:11px;color:#9AA1B0;letter-spacing:.04em}
+  .device-stat b{color:var(--amber)}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+  .slot{
+    background:var(--screen-2);border-radius:8px;padding:9px 8px 8px;
+    border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden;
+    transition:border-color .4s ease,background .4s ease;
+  }
+  .coil{height:3px;border-radius:3px;background:rgba(255,255,255,.10);margin-bottom:3px}
+  .coil:last-of-type{margin-bottom:0}
+  .slot .tag{
+    position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;
+    background:var(--green);transition:background .4s ease,box-shadow .4s ease;
+  }
+  .slot.low .tag{background:var(--amber)}
+  .slot.empty .tag{background:var(--red);box-shadow:0 0 0 0 rgba(229,72,77,.6);animation:pulseR 1.8s infinite}
+  @keyframes pulseR{0%{box-shadow:0 0 0 0 rgba(229,72,77,.5)}70%{box-shadow:0 0 0 6px rgba(229,72,77,0)}100%{box-shadow:0 0 0 0 rgba(229,72,77,0)}}
+  .slot.empty{border-color:rgba(229,72,77,.35)}
+  .slot.empty .coil{background:rgba(229,72,77,.18)}
+  .slot.low .coil{background:rgba(241,163,37,.18)}
+  .device-foot{margin-top:14px;display:flex;gap:16px;font-family:"Space Mono";font-size:11px;color:#9AA1B0}
+  .device-foot span{display:flex;align-items:center;gap:6px}
+  .dotk{width:8px;height:8px;border-radius:50%}
+
+  /* ---------- SECTIONS ---------- */
+  section.block{padding:62px 0;border-top:1px solid var(--line)}
+  .sec-head{max-width:60ch;margin-bottom:38px}
+  .sec-head h2{font-family:"Space Grotesk";font-weight:700;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:12px 0 12px;line-height:1.1}
+  .sec-head p{color:var(--ink-soft);font-size:17px}
+
+  /* problem cards */
+  .cost-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .cost{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+  .cost .big{font-family:"Space Grotesk";font-weight:700;font-size:30px;letter-spacing:-.02em;color:var(--red);margin-bottom:8px}
+  .cost h3{font-family:"Space Grotesk";font-size:16px;font-weight:600;margin-bottom:6px}
+  .cost p{font-size:14px;color:var(--ink-soft)}
+
+  /* product features */
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .feat{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;display:flex;gap:16px;align-items:flex-start;transition:border-color .15s ease,transform .15s ease;
+  }
+  .feat:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+  .feat .ic{flex:none;width:42px;height:42px;border-radius:11px;background:var(--brand-wash);display:flex;align-items:center;justify-content:center}
+  .feat .ic svg{width:22px;height:22px;stroke:var(--brand)}
+  .feat h3{font-family:"Space Grotesk";font-size:16px;font-weight:600;margin-bottom:5px}
+  .feat p{font-size:14px;color:var(--ink-soft)}
+
+  /* how it works */
+  .wedge{
+    background:var(--ink);color:#fff;border-radius:18px;padding:30px 28px;margin-bottom:34px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  .wedge .tagline{font-family:"Space Grotesk";font-weight:600;font-size:clamp(18px,2.4vw,24px);letter-spacing:-.01em;flex:1;min-width:260px;line-height:1.25}
+  .wedge .tagline em{color:#8FA6FF;font-style:normal}
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+  .step .n{font-family:"Space Mono";font-size:12px;color:var(--brand);font-weight:700;letter-spacing:.1em}
+  .step h3{font-family:"Space Grotesk";font-size:17px;font-weight:600;margin:10px 0 7px}
+  .step p{font-size:14px;color:var(--ink-soft)}
+  .step .arrow{position:absolute;right:-19px;top:50%;transform:translateY(-50%);color:var(--line-strong);font-size:20px;z-index:2}
+  .step:last-child .arrow{display:none}
+
+  /* status */
+  .status-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .stat-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .stat-card.done{border-left:3px solid var(--green)}
+  .stat-card.soon{border-left:3px solid var(--amber)}
+  .stat-card .chip{font-family:"Space Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:12px}
+  .chip.g{background:rgba(45,161,96,.12);color:var(--green)}
+  .chip.a{background:rgba(241,163,37,.14);color:#B9791A}
+  .stat-card ul{list-style:none;margin-top:6px}
+  .stat-card li{font-size:14.5px;color:var(--ink-2);padding:5px 0 5px 22px;position:relative}
+  .stat-card li::before{content:"";position:absolute;left:0;top:11px;width:7px;height:7px;border-radius:2px;background:var(--line-strong)}
+  .stat-card.done li::before{background:var(--green)}
+  .stat-card.soon li::before{background:var(--amber)}
+
+  /* ask */
+  .ask{background:var(--ink);color:#fff;border-radius:20px;padding:44px 40px;text-align:center}
+  .ask h2{font-family:"Space Grotesk";font-weight:700;font-size:clamp(26px,3.6vw,40px);letter-spacing:-.02em;margin-bottom:14px}
+  .ask p{color:#B6BCC9;font-size:17px;max-width:52ch;margin:0 auto 28px}
+  .ask-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .ask-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 20px;text-align:left;flex:1;min-width:200px;max-width:280px}
+  .ask-pill .num{font-family:"Space Mono";color:#8FA6FF;font-weight:700;font-size:13px}
+  .ask-pill h4{font-family:"Space Grotesk";font-size:15px;font-weight:600;margin:6px 0 4px}
+  .ask-pill p{font-size:13px;color:#9AA1B0;margin:0}
+  .ask .cta{margin-top:30px}
+  .ask .cta button{
+    background:var(--brand);color:#fff;border:none;cursor:pointer;
+    font-family:"Inter";font-weight:600;font-size:15px;padding:14px 26px;border-radius:12px;
+    transition:transform .12s ease,background .15s ease;
+  }
+  .ask .cta button:hover{background:#3358EA;transform:translateY(-1px)}
+
+  footer.foot{padding:34px 0 60px;text-align:center;color:var(--ink-soft);font-size:13px}
+  footer.foot .mono{font-size:12px}
+
+  /* ---------- NOTES DRAWER ---------- */
+  .scrim{position:fixed;inset:0;background:rgba(10,12,18,.42);opacity:0;visibility:hidden;transition:opacity .25s ease;z-index:50}
+  .scrim.open{opacity:1;visibility:visible}
+  .drawer{
+    position:fixed;top:0;right:0;height:100%;width:min(440px,92vw);
+    background:var(--surface);z-index:60;transform:translateX(102%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;box-shadow:-20px 0 50px -20px rgba(0,0,0,.3);
+  }
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+  .drawer-head h3{font-family:"Space Grotesk";font-size:18px;font-weight:700;display:flex;align-items:center;gap:9px}
+  .drawer-head .sub{font-size:12.5px;color:var(--ink-soft);margin-top:2px;font-family:"Inter")}
+  .x{background:none;border:none;cursor:pointer;color:var(--ink-soft);padding:6px;border-radius:8px;line-height:0}
+  .x:hover{background:var(--paper);color:var(--ink)}
+  .drawer-form{padding:18px 22px;border-bottom:1px solid var(--line);background:var(--paper)}
+  .cats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+  .cat{
+    font-family:"Space Mono";font-size:11px;font-weight:700;letter-spacing:.03em;
+    padding:5px 11px;border-radius:20px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--ink-soft);cursor:pointer;transition:all .12s ease;
+  }
+  .cat.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .drawer-form textarea{
+    width:100%;min-height:74px;resize:vertical;border:1px solid var(--line-strong);
+    border-radius:10px;padding:12px;font-family:"Inter";font-size:14px;color:var(--ink);
+    background:var(--surface);outline:none;transition:border-color .15s ease;
+  }
+  .drawer-form textarea:focus{border-color:var(--brand)}
+  .add-row{display:flex;gap:10px;margin-top:11px}
+  .add-row button{
+    flex:1;background:var(--brand);color:#fff;border:none;cursor:pointer;
+    font-family:"Inter";font-weight:600;font-size:14px;padding:11px;border-radius:10px;transition:background .15s ease;
+  }
+  .add-row button:hover{background:#3358EA}
+  .add-row button:disabled{background:var(--line-strong);cursor:not-allowed}
+  .drawer-list{flex:1;overflow-y:auto;padding:16px 22px}
+  .empty-state{text-align:center;padding:46px 18px;color:var(--ink-soft)}
+  .empty-state svg{width:38px;height:38px;stroke:var(--line-strong);margin-bottom:12px}
+  .empty-state p{font-size:14px}
+  .empty-state .mono{font-size:12px;margin-top:6px;color:var(--line-strong)}
+  .note{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:11px;position:relative;background:var(--surface)}
+  .note .meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .note .ncat{font-family:"Space Mono";font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+  .note .ntime{font-family:"Space Mono";font-size:11px;color:var(--ink-soft)}
+  .note .ntext{font-size:14px;color:var(--ink-2);white-space:pre-wrap;word-break:break-word}
+  .note .del{position:absolute;bottom:11px;right:11px;background:none;border:none;cursor:pointer;color:var(--line-strong);padding:4px;border-radius:6px;line-height:0}
+  .note .del:hover{color:var(--red);background:rgba(229,72,77,.08)}
+  .drawer-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px}
+  .drawer-foot button{
+    flex:1;font-family:"Inter";font-size:13px;font-weight:600;padding:10px;border-radius:9px;cursor:pointer;
+    border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);transition:all .12s ease;
+  }
+  .drawer-foot button:hover{border-color:var(--ink);background:var(--paper)}
+  .drawer-foot button.clear:hover{border-color:var(--red);color:var(--red);background:rgba(229,72,77,.06)}
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:10px;font-size:13.5px;font-weight:500;
+    opacity:0;visibility:hidden;transition:all .25s ease;z-index:80;
+  }
+  .toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:36px}
+    .cost-grid,.feat-grid,.flow,.status-grid{grid-template-columns:1fr}
+    .step .arrow{display:none}
+    nav.links{display:none}
+    .hero{padding:40px 0 36px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+
+  /* ---------- LIVE SUGGESTION DEMO ---------- */
+  .suggest-grid{display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:center}
+  .suggest-copy h2{font-family:"Space Grotesk";font-weight:700;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.02em;margin:12px 0 14px;line-height:1.1}
+  .suggest-copy>p{color:var(--ink-soft);font-size:17px;margin-bottom:24px;max-width:48ch}
+  .suggest-points{list-style:none;margin:0 0 24px}
+  .suggest-points li{font-size:15px;color:var(--ink-2);padding:11px 0 11px 26px;position:relative;border-top:1px solid var(--line)}
+  .suggest-points li:first-child{border-top:none}
+  .suggest-points li::before{content:"";position:absolute;left:0;top:18px;width:8px;height:8px;border-radius:2px;background:var(--brand)}
+  .suggest-points b{font-weight:600;color:var(--ink)}
+  .try-hint{display:inline-flex;align-items:center;gap:9px;font-family:"Space Mono";font-size:12.5px;color:var(--ink-soft);background:var(--surface);border:1px solid var(--line);padding:9px 14px;border-radius:10px}
+  .live-dot2{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(45,161,96,.6);animation:pulse 2.4s infinite;flex:none}
+  .phone{width:360px;max-width:100%;margin:0 auto;background:#0F1115;border-radius:46px;padding:13px 13px 24px;position:relative;box-shadow:0 40px 70px -30px rgba(16,20,40,.6),0 0 0 1px rgba(255,255,255,.05) inset}
+  .phone::after{content:"";position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:110px;height:5px;border-radius:6px;background:rgba(255,255,255,.22)}
+  .phone iframe{width:100%;height:600px;border:none;border-radius:34px;display:block;background:#f0f4f8}
+  @media (max-width:860px){
+    .suggest-grid{grid-template-columns:1fr;gap:34px}
+  }
+
+  /* ---------- COST COMPARISON ---------- */
+  .compare{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:stretch;margin-bottom:24px}
+  .path{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px 26px;display:flex;flex-direction:column}
+  .path .ptag{font-family:"Space Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+  .path.old .ptag{color:var(--red)}
+  .path.new .ptag{color:var(--green)}
+  .path .price{font-family:"Space Grotesk";font-weight:700;letter-spacing:-.02em;font-size:clamp(30px,4vw,44px);line-height:1;margin-bottom:7px}
+  .path.old .price{color:var(--ink)}
+  .path.new .price{color:var(--brand)}
+  .path .price small{font-size:15px;font-weight:500;color:var(--ink-soft);letter-spacing:0}
+  .path .ptitle{font-family:"Space Grotesk";font-size:16px;font-weight:600;margin-bottom:18px}
+  .path ul{list-style:none;margin-top:auto}
+  .path li{font-size:14px;color:var(--ink-2);padding:7px 0 7px 24px;position:relative;line-height:1.45}
+  .path li::before{position:absolute;left:0;top:7px;font-family:"Space Mono";font-size:14px;font-weight:700}
+  .path.old li::before{content:"\00d7";color:var(--red)}
+  .path.new li::before{content:"+";color:var(--green)}
+  .path.new{border-color:var(--brand);box-shadow:0 18px 40px -24px rgba(31,70,214,.42)}
+  .vs{display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk";font-weight:700;color:var(--ink-soft);font-size:15px}
+  .save-strip{background:var(--ink);color:#fff;border-radius:18px;padding:26px 28px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+  .save-strip .big{font-family:"Space Grotesk";font-weight:700;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.02em;color:#8FA6FF;line-height:1.05;white-space:nowrap}
+  .save-strip .txt{flex:1;min-width:240px}
+  .save-strip .txt h3{font-family:"Space Grotesk";font-size:18px;font-weight:600;margin-bottom:6px}
+  .save-strip .txt p{font-size:14.5px;color:#B6BCC9;line-height:1.5}
+  .fineprint{font-family:"Space Mono";font-size:11px;color:var(--ink-soft);margin-top:18px;line-height:1.7}
+  @media (max-width:860px){
+    .compare{grid-template-columns:1fr;gap:14px}
+    .vs{padding:2px}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="bar">
+  <div class="bar-inner">
+    <div class="brand-mark">
+      <svg class="cube" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" stroke="#1F46D6" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M3 7L12 12L21 7" stroke="#1F46D6" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M12 12V22" stroke="#1F46D6" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      VendSmart
+    </div>
+    <nav class="links">
+      <a href="#problem">The problem</a>
+      <a href="#product">The app</a>
+      <a href="#how">How it works</a>
+      <a href="#status">Where it is</a>
+    </nav>
+    <button class="notes-btn" id="openNotes">
+      Meeting notes <span class="count" id="navCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Fleet monitoring for vending operators</span>
+      <h1>Stop driving to machines<br><span class="hl">to find out they're empty.</span></h1>
+      <p class="lead">VendSmart shows you every machine, every slot, and every dollar from one app. It retrofits the machines you already own. No new hardware to buy.</p>
+      <div class="readouts">
+        <div class="readout">
+          <div class="num red">$0</div>
+          <div class="lbl">A sold-out slot earns until someone notices</div>
+        </div>
+        <div class="readout">
+          <div class="num">1 app</div>
+          <div class="lbl">Your whole fleet, live</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURE: live machine face -->
+    <div class="device" aria-hidden="true">
+      <div class="device-top">
+        <div class="name"><span class="live-dot"></span>Main Lobby</div>
+        <div class="device-stat"><b id="alertCount">2</b> slots need restock</div>
+      </div>
+      <div class="grid" id="slotGrid"></div>
+      <div class="device-foot">
+        <span><span class="dotk" style="background:var(--green)"></span>Stocked</span>
+        <span><span class="dotk" style="background:var(--amber)"></span>Low</span>
+        <span><span class="dotk" style="background:var(--red)"></span>Empty</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="block" id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The problem</span>
+      <h2>Running a route means guessing.</h2>
+      <p>Operators find out a popular slot went empty when they show up to refill it. By then it's been dead for days, and that's revenue that's gone for good.</p>
+    </div>
+    <div class="cost-grid">
+      <div class="cost">
+        <div class="big">Blind</div>
+        <h3>No live visibility</h3>
+        <p>You can't see stock levels without physically standing in front of the machine. Every check is a drive.</p>
+      </div>
+      <div class="cost">
+        <div class="big">Wasted</div>
+        <h3>Trips you didn't need</h3>
+        <p>You restock machines that were fine and skip the one that's been empty since Tuesday. Fuel and hours, gone.</p>
+      </div>
+      <div class="cost">
+        <div class="big">Lost</div>
+        <h3>Sales you'll never know about</h3>
+        <p>An empty best-seller is pure lost revenue. No alert, no data, no idea which items actually move where.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="block" id="product">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The app</span>
+      <h2>One screen for the whole operation.</h2>
+      <p>Built and clickable today. Here's what an operator actually does with it.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        <div><h3>Fleet at a glance</h3><p>Every machine with revenue, stock, and alerts. Offline or low-stock machines flag themselves in red and yellow.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg></div>
+        <div><h3>Smart restock</h3><p>See exactly which slots are low. The app checks your warehouse stock and tells you to use what you have or reorder.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 4-6"/></svg></div>
+        <div><h3>Sales trends</h3><p>Daily sales and peak hours per machine. Know what moves where, and stock each location for what it actually sells.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <div><h3>Courier mode</h3><p>Delivery staff get a separate PIN login, machines sorted by urgency, directions, and building notes. Restocks sync back to you instantly.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 1 1-4-7.2L21 5"/><path d="M9 11l2 2 4-4"/></svg></div>
+        <div><h3>Customer requests</h3><p>A QR code on the machine lets customers suggest and vote on what they want stocked. You see demand before you guess.</p></div>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M12 8a6 6 0 0 1 6 6c0 4-6 8-6 8s-6-4-6-8a6 6 0 0 1 6-6z"/></svg></div>
+        <div><h3>Earnings tracking</h3><p>Month-to-date, weekly, and per-item revenue with a live sales log. Your books for each machine, automatically.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE SUGGESTION DEMO -->
+<section class="block" id="suggest">
+  <div class="wrap suggest-grid">
+    <div class="suggest-copy">
+      <span class="eyebrow">Customer-facing &middot; live demo</span>
+      <h2>The machine asks customers what to stock.</h2>
+      <p>A QR code on the machine front opens this page. Nothing to download. Customers vote on items already sitting in your warehouse and request new ones, so you stock for real demand instead of guessing.</p>
+      <ul class="suggest-points">
+        <li><b>Vote to stock.</b> Warehouse items with the most votes get loaded first.</li>
+        <li><b>See what's trending.</b> Requests stack up across customers, so the patterns are obvious.</li>
+        <li><b>Demand flows to you.</b> Every vote lands in the Suggestions tab in your operator app.</li>
+      </ul>
+      <div class="try-hint"><span class="live-dot2"></span> This is the real page. Go ahead, tap an item.</div>
+    </div>
+    <div class="phone">
+      <iframe id="suggestFrame" title="VendSmart customer suggestion page"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="block" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How it works</span>
+      <h2>A retrofit, not a replacement.</h2>
+    </div>
+    <div class="wedge">
+      <div class="tagline">A new smart machine runs thousands. VendSmart adds the same intelligence to the machines <em>you already own.</em></div>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="n">STEP 01</div>
+        <h3>Sensors inside</h3>
+        <p>Low-cost IR sensors mount in the machine and detect when each slot runs empty. No rewiring the unit.</p>
+        <div class="arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="n">STEP 02</div>
+        <h3>A small board reports</h3>
+        <p>An Arduino controller reads the sensors and pushes stock status up to the cloud over the machine's connection.</p>
+        <div class="arrow">→</div>
+      </div>
+      <div class="step">
+        <div class="n">STEP 03</div>
+        <h3>You see it live</h3>
+        <p>The app updates in real time. Alerts fire the moment a slot empties, before you've lost a day of sales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COST COMPARISON -->
+<section class="block" id="math">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The math</span>
+      <h2>Smart shouldn't mean buying a new machine.</h2>
+      <p>Operators are told the only way to get real-time visibility is to buy a new connected machine. It isn't. VendSmart adds the same intelligence to a machine you already own, for a fraction of the price.</p>
+    </div>
+
+    <div class="compare">
+      <div class="path old">
+        <div class="ptag">The expensive way</div>
+        <div class="price">$10,000+</div>
+        <div class="ptitle">Buy a new smart machine</div>
+        <ul>
+          <li>New unit with built-in telemetry and a touchscreen</li>
+          <li>Replace machines that already work fine</li>
+          <li>Locked into one manufacturer's software</li>
+        </ul>
+      </div>
+      <div class="vs">vs</div>
+      <div class="path new">
+        <div class="ptag">The VendSmart way</div>
+        <div class="price">~$1,500 <small>+ retrofit</small></div>
+        <div class="ptitle">Make a used machine smart</div>
+        <ul>
+          <li>Grab a used machine for $500 to $3,000, or use one you already own</li>
+          <li>Add VendSmart sensors and the app</li>
+          <li>Same live visibility, a fraction of the cost</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="save-strip">
+      <div class="big">15&ndash;25%<br>fewer trips</div>
+      <div class="txt">
+        <h3>And your couriers drive less.</h3>
+        <p>Restocking by data instead of a fixed Tuesday/Friday loop cuts unnecessary service visits by 15 to 25 percent. Staff roll out when a slot is actually empty, not on a guess, so you spend less on fuel and labor every week.</p>
+      </div>
+    </div>
+
+    <p class="fineprint">New and used machine figures are 2026 US market ranges. Connected/smart units commonly run $10,000 and up. Trip-reduction figures reflect published telemetry operator data. VendSmart retrofit pricing is being finalized with pilot partners.</p>
+  </div>
+</section>
+
+<!-- STATUS (honesty) -->
+<section class="block" id="status">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Where it is today</span>
+      <h2>Straight on the stage we're at.</h2>
+      <p>The operator experience is fully built and clickable. The sensor hardware that feeds it is in active development with my technical co-founder.</p>
+    </div>
+    <div class="status-grid">
+      <div class="stat-card done">
+        <span class="chip g">Built now</span>
+        <ul>
+          <li>Full operator app: fleet, inventory, trends, earnings, settings</li>
+          <li>Courier app with restocks that sync live to operators</li>
+          <li>Customer QR suggestion page</li>
+          <li>Working demo you can click through today</li>
+        </ul>
+      </div>
+      <div class="stat-card soon">
+        <span class="chip a">In development</span>
+        <ul>
+          <li>Arduino + IR sensor retrofit kit (co-founder building hardware)</li>
+          <li>Cloud backend for live multi-device sync and push alerts</li>
+          <li>Pilot install on a real machine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASK -->
+<section class="block">
+  <div class="wrap">
+    <div class="ask">
+      <span class="eyebrow" style="color:#8FA6FF">What I'm here for</span>
+      <h2>I'm not selling yet. I'm listening.</h2>
+      <p>Before this ships, I want to build it around what operators actually need. Three things I'd love from you today.</p>
+      <div class="ask-row">
+        <div class="ask-pill">
+          <div class="num">01</div>
+          <h4>Your honest reaction</h4>
+          <p>Would this make your week easier, or is it solving a problem you don't have?</p>
+        </div>
+        <div class="ask-pill">
+          <div class="num">02</div>
+          <h4>What's missing</h4>
+          <p>What would it need to do before you'd actually put it on your machines?</p>
+        </div>
+        <div class="ask-pill">
+          <div class="num">03</div>
+          <h4>One machine to pilot</h4>
+          <p>If it's a fit, would you let us install the sensor on a single machine to prove it out?</p>
+        </div>
+      </div>
+      <div class="cta">
+        <button id="openNotes2">Log what they said →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span class="mono">VENDSMART · OPERATOR PITCH · DEMO STAGE</span>
+  </div>
+</footer>
+
+<!-- NOTES DRAWER -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Meeting notes">
+  <div class="drawer-head">
+    <div>
+      <h3>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F46D6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Meeting notes
+      </h3>
+      <div class="sub">What this vendor wants. Saved automatically.</div>
+    </div>
+    <button class="x" id="closeNotes" aria-label="Close">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="drawer-form">
+    <div class="cats" id="cats">
+      <button class="cat active" data-cat="Feature request">Feature request</button>
+      <button class="cat" data-cat="Concern">Concern</button>
+      <button class="cat" data-cat="Pricing">Pricing</button>
+      <button class="cat" data-cat="Machine info">Machine info</button>
+      <button class="cat" data-cat="Other">Other</button>
+    </div>
+    <textarea id="noteInput" placeholder="e.g. Wants alerts texted to him, not just in-app. Runs 40 machines, mostly older Crane units."></textarea>
+    <div class="add-row">
+      <button id="addNote" disabled>Add note</button>
+    </div>
+  </div>
+
+  <div class="drawer-list" id="noteList"></div>
+
+  <div class="drawer-foot">
+    <button id="copyAll">Copy all notes</button>
+    <button class="clear" id="clearAll">Clear</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  // ---------- LIVE MACHINE FACE ----------
+  var grid = document.getElementById('slotGrid');
+  var alertEl = document.getElementById('alertCount');
+  var SLOTS = 15;
+  var state = [];
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for(var i=0;i<SLOTS;i++){
+    var s = 'full';
+    if(i===4) s='empty'; if(i===9) s='empty'; if(i===2) s='low';
+    state.push(s);
+  }
+  function render(){
+    grid.innerHTML='';
+    var alerts=0;
+    state.forEach(function(st){
+      if(st==='empty')alerts++;
+      var d=document.createElement('div');
+      d.className='slot'+(st==='empty'?' empty':st==='low'?' low':'');
+      d.innerHTML='<div class="coil"></div><div class="coil"></div><div class="coil"></div><span class="tag"></span>';
+      grid.appendChild(d);
+    });
+    alertEl.textContent=alerts;
+  }
+  render();
+  if(!reduced){
+    setInterval(function(){
+      var r=Math.random();
+      if(r<0.45){ // a sale depletes a slot
+        var fulls=state.map(function(v,i){return v==='full'?i:-1}).filter(function(i){return i>=0});
+        if(fulls.length){var idx=fulls[Math.floor(Math.random()*fulls.length)];state[idx]=Math.random()<0.5?'low':'empty';}
+      } else { // a restock
+        var bad=state.map(function(v,i){return v!=='full'?i:-1}).filter(function(i){return i>=0});
+        if(bad.length>1){var jdx=bad[Math.floor(Math.random()*bad.length)];state[jdx]='full';}
+      }
+      render();
+    },2200);
+  }
+
+  // ---------- DRAWER ----------
+  var scrim=document.getElementById('scrim'),drawer=document.getElementById('drawer');
+  function openD(){scrim.classList.add('open');drawer.classList.add('open');}
+  function closeD(){scrim.classList.remove('open');drawer.classList.remove('open');}
+  document.getElementById('openNotes').onclick=openD;
+  document.getElementById('openNotes2').onclick=openD;
+  document.getElementById('closeNotes').onclick=closeD;
+  scrim.onclick=closeD;
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeD();});
+
+  // ---------- NOTES STATE ----------
+  var notes=[];
+  var curCat='Feature request';
+  var input=document.getElementById('noteInput');
+  var addBtn=document.getElementById('addNote');
+  var listEl=document.getElementById('noteList');
+  var navCount=document.getElementById('navCount');
+  var STORE_KEY='vendsmart:notes';
+  var storageOK=true;
+
+  var catColors={'Feature request':'#1F46D6','Concern':'#E5484D','Pricing':'#B9791A','Machine info':'#2DA160','Other':'#5C616E'};
+  var catBg={'Feature request':'#E8EDFC','Concern':'#FCE9E9','Pricing':'#FBF0DC','Machine info':'#E4F4EA','Other':'#ECEEF1'};
+
+  document.getElementById('cats').addEventListener('click',function(e){
+    var b=e.target.closest('.cat'); if(!b)return;
+    document.querySelectorAll('.cat').forEach(function(c){c.classList.remove('active')});
+    b.classList.add('active'); curCat=b.dataset.cat;
+  });
+  input.addEventListener('input',function(){addBtn.disabled=input.value.trim()==='';});
+
+  function toast(msg){
+    var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+    setTimeout(function(){t.classList.remove('show');},1900);
+  }
+  function fmtTime(ts){
+    var d=new Date(ts);
+    return d.toLocaleDateString([], {month:'short',day:'numeric'})+' · '+d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  }
+
+  async function persist(){
+    if(!storageOK)return;
+    try{ await window.storage.set(STORE_KEY, JSON.stringify(notes), false); }
+    catch(err){ storageOK=false; }
+  }
+  async function load(){
+    try{
+      var r=await window.storage.get(STORE_KEY,false);
+      if(r && r.value){ notes=JSON.parse(r.value)||[]; }
+    }catch(err){ /* no notes yet or storage unavailable */ notes=[]; }
+    renderNotes();
+  }
+
+  function renderNotes(){
+    navCount.textContent=notes.length;
+    if(notes.length===0){
+      listEl.innerHTML='<div class="empty-state">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></svg>'+
+        '<p>No notes yet.</p>'+
+        '<p class="mono">Capture what they ask for as they say it.</p>'+
+        '</div>';
+      return;
+    }
+    listEl.innerHTML='';
+    notes.slice().reverse().forEach(function(n){
+      var el=document.createElement('div');el.className='note';
+      el.innerHTML=
+        '<div class="meta">'+
+          '<span class="ncat" style="color:'+catColors[n.cat]+';background:'+catBg[n.cat]+'">'+n.cat+'</span>'+
+          '<span class="ntime">'+fmtTime(n.ts)+'</span>'+
+        '</div>'+
+        '<div class="ntext"></div>'+
+        '<button class="del" data-id="'+n.id+'" aria-label="Delete note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>';
+      el.querySelector('.ntext').textContent=n.text;
+      listEl.appendChild(el);
+    });
+  }
+
+  async function addNote(){
+    var txt=input.value.trim(); if(!txt)return;
+    notes.push({id:Date.now()+''+Math.floor(Math.random()*999),text:txt,cat:curCat,ts:Date.now()});
+    input.value='';addBtn.disabled=true;
+    renderNotes();await persist();
+  }
+  addBtn.onclick=addNote;
+  input.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key==='Enter')addNote();});
+
+  listEl.addEventListener('click',async function(e){
+    var b=e.target.closest('.del'); if(!b)return;
+    var id=b.dataset.id;
+    notes=notes.filter(function(n){return n.id!==id;});
+    renderNotes();await persist();
+  });
+
+  document.getElementById('copyAll').onclick=function(){
+    if(notes.length===0){toast('No notes to copy');return;}
+    var byCat={};
+    notes.forEach(function(n){(byCat[n.cat]=byCat[n.cat]||[]).push(n);});
+    var out='VENDSMART — MEETING NOTES\n'+new Date().toLocaleString()+'\n\n';
+    Object.keys(byCat).forEach(function(c){
+      out+=c.toUpperCase()+'\n';
+      byCat[c].forEach(function(n){out+='  - '+n.text+'\n';});
+      out+='\n';
+    });
+    navigator.clipboard.writeText(out.trim()).then(function(){toast('Copied '+notes.length+' notes to clipboard');},
+      function(){toast('Copy failed');});
+  };
+
+  document.getElementById('clearAll').onclick=async function(){
+    if(notes.length===0)return;
+    if(!confirm('Clear all '+notes.length+' notes? This cannot be undone.'))return;
+    notes=[];renderNotes();await persist();toast('Notes cleared');
+  };
+
+  load();
+})();
+</script>
+<script>
+(function(){
+  var SUGGEST_HTML = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>VendSmart \u2014 Suggest an Item<\/title>\n  <style>\n    * { margin: 0; padding: 0; box-sizing: border-box; }\n\n    body {\n      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n      background: #f0f4f8;\n      min-height: 100vh;\n      display: flex;\n      align-items: flex-start;\n      justify-content: center;\n      padding: 20px 16px 40px;\n    }\n\n    .phone-frame { width: 100%; max-width: 390px; }\n\n    /* \u2500\u2500 HEADER \u2500\u2500 */\n    .header {\n      background: #1e40af;\n      border-radius: 24px 24px 0 0;\n      padding: 28px 24px 22px;\n      text-align: center;\n    }\n\n    .logo {\n      font-size: 12px;\n      font-weight: 800;\n      color: #bfdbfe;\n      letter-spacing: 2px;\n      text-transform: uppercase;\n      margin-bottom: 14px;\n    }\n\n    .header h1 {\n      font-size: 24px;\n      font-weight: 900;\n      color: #fff;\n      line-height: 1.25;\n      margin-bottom: 10px;\n    }\n\n    .machine-tag {\n      display: inline-flex;\n      align-items: center;\n      gap: 6px;\n      background: rgba(255,255,255,0.15);\n      color: #bfdbfe;\n      font-size: 13px;\n      font-weight: 600;\n      padding: 6px 14px;\n      border-radius: 20px;\n    }\n\n    .dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; }\n\n    /* \u2500\u2500 CARD \u2500\u2500 */\n    .card {\n      background: #fff;\n      border-radius: 0 0 24px 24px;\n      padding: 24px 20px 28px;\n      box-shadow: 0 8px 32px rgba(0,0,0,0.1);\n    }\n\n    .step { display: none; }\n    .step.active { display: block; }\n\n    /* \u2500\u2500 SECTION LABELS \u2500\u2500 */\n    .section-label {\n      font-size: 11px;\n      font-weight: 800;\n      letter-spacing: 0.8px;\n      text-transform: uppercase;\n      margin-bottom: 10px;\n      margin-top: 22px;\n      display: flex;\n      align-items: center;\n      gap: 7px;\n    }\n\n    .section-label:first-child { margin-top: 0; }\n\n    .section-label .badge {\n      font-size: 10px;\n      font-weight: 700;\n      padding: 2px 8px;\n      border-radius: 20px;\n    }\n\n    /* \u2500\u2500 FAST STOCK SECTION \u2500\u2500 */\n    .fast-section {\n      background: linear-gradient(135deg, #f0fdf4, #ecfdf5);\n      border: 1.5px solid #86efac;\n      border-radius: 16px;\n      padding: 16px;\n      margin-bottom: 4px;\n    }\n\n    .fast-title {\n      font-size: 13px;\n      font-weight: 800;\n      color: #15803d;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      margin-bottom: 4px;\n    }\n\n    .fast-sub {\n      font-size: 12px;\n      color: #4b7a5a;\n      margin-bottom: 14px;\n      line-height: 1.5;\n    }\n\n    .fast-item {\n      display: flex;\n      align-items: center;\n      background: #fff;\n      border: 1.5px solid #bbf7d0;\n      border-radius: 12px;\n      padding: 12px 14px;\n      margin-bottom: 8px;\n      gap: 12px;\n      cursor: pointer;\n      transition: all 0.15s;\n    }\n\n    .fast-item:last-child { margin-bottom: 0; }\n\n    .fast-item:hover { border-color: #16a34a; background: #f0fdf4; }\n\n    .fast-item.voted {\n      border-color: #16a34a;\n      background: #f0fdf4;\n    }\n\n    .fast-item-icon {\n      width: 36px; height: 36px;\n      background: #dcfce7;\n      border-radius: 10px;\n      display: flex; align-items: center; justify-content: center;\n      font-size: 18px;\n      flex-shrink: 0;\n    }\n\n    .fast-item-info { flex: 1; }\n\n    .fast-item-name {\n      font-size: 15px;\n      font-weight: 700;\n      color: #1e293b;\n    }\n\n    .fast-item-sub {\n      font-size: 12px;\n      color: #64748b;\n      margin-top: 1px;\n    }\n\n    .fast-item-action {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      gap: 2px;\n    }\n\n    .vote-ring {\n      width: 38px; height: 38px;\n      border-radius: 50%;\n      border: 2px solid #bbf7d0;\n      background: #f0fdf4;\n      display: flex; align-items: center; justify-content: center;\n      font-size: 18px;\n      transition: all 0.15s;\n      flex-shrink: 0;\n    }\n\n    .fast-item.voted .vote-ring {\n      background: #16a34a;\n      border-color: #16a34a;\n    }\n\n    .vote-count {\n      font-size: 11px;\n      font-weight: 700;\n      color: #64748b;\n    }\n\n    .fast-item.voted .vote-count { color: #16a34a; }\n\n    .in-stock-badge {\n      display: inline-flex;\n      align-items: center;\n      gap: 4px;\n      background: #dcfce7;\n      color: #15803d;\n      font-size: 10px;\n      font-weight: 700;\n      padding: 2px 8px;\n      border-radius: 20px;\n    }\n\n    /* \u2500\u2500 TRENDING SECTION \u2500\u2500 */\n    .trending {\n      background: #fffbeb;\n      border: 1.5px solid #fde68a;\n      border-radius: 16px;\n      padding: 16px;\n      margin-bottom: 4px;\n    }\n\n    .trending-title {\n      font-size: 13px;\n      font-weight: 800;\n      color: #92400e;\n      margin-bottom: 4px;\n    }\n\n    .trending-sub {\n      font-size: 12px;\n      color: #78350f;\n      margin-bottom: 12px;\n      line-height: 1.5;\n    }\n\n    .trending-grid {\n      display: grid;\n      grid-template-columns: 1fr 1fr;\n      gap: 8px;\n    }\n\n    .trending-item {\n      background: #fff;\n      border: 1.5px solid #fde68a;\n      border-radius: 10px;\n      padding: 10px 12px;\n      cursor: pointer;\n      transition: all 0.15s;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 8px;\n    }\n\n    .trending-item:hover { background: #fef3c7; border-color: #f59e0b; }\n\n    .trending-item.voted {\n      background: #fffbeb;\n      border-color: #f59e0b;\n    }\n\n    .trending-item-name {\n      font-size: 13px;\n      font-weight: 700;\n      color: #1e293b;\n      line-height: 1.3;\n    }\n\n    .trending-votes {\n      font-size: 11px;\n      color: #64748b;\n      font-weight: 600;\n      white-space: nowrap;\n    }\n\n    .trending-item.voted .trending-votes { color: #d97706; font-weight: 800; }\n\n    /* \u2500\u2500 NEW SUGGESTION SECTION \u2500\u2500 */\n    .new-section {\n      background: #f8fafc;\n      border: 1.5px solid #e2e8f0;\n      border-radius: 16px;\n      padding: 16px;\n    }\n\n    .new-title {\n      font-size: 13px;\n      font-weight: 800;\n      color: #1e293b;\n      margin-bottom: 3px;\n    }\n\n    .new-sub {\n      font-size: 12px;\n      color: #64748b;\n      margin-bottom: 14px;\n      line-height: 1.5;\n    }\n\n    .field-label {\n      font-size: 11px;\n      font-weight: 700;\n      color: #64748b;\n      text-transform: uppercase;\n      letter-spacing: 0.5px;\n      margin-bottom: 6px;\n      margin-top: 14px;\n    }\n\n    .field-label:first-of-type { margin-top: 0; }\n\n    input, textarea {\n      width: 100%;\n      background: #fff;\n      border: 1.5px solid #e2e8f0;\n      border-radius: 10px;\n      padding: 12px 14px;\n      font-size: 15px;\n      color: #1e293b;\n      font-family: inherit;\n      outline: none;\n      transition: border-color 0.2s;\n    }\n\n    input:focus, textarea:focus { border-color: #1e40af; }\n    textarea { resize: none; height: 80px; }\n\n    .categories {\n      display: flex;\n      gap: 8px;\n      flex-wrap: wrap;\n    }\n\n    .cat-btn {\n      padding: 7px 14px;\n      border-radius: 20px;\n      border: 1.5px solid #e2e8f0;\n      background: #fff;\n      font-size: 13px;\n      font-weight: 600;\n      color: #64748b;\n      cursor: pointer;\n      transition: all 0.15s;\n      font-family: inherit;\n    }\n\n    .cat-btn.selected {\n      background: #eff6ff;\n      border-color: #1e40af;\n      color: #1e40af;\n    }\n\n    .submit-btn {\n      width: 100%;\n      background: #1e40af;\n      color: #fff;\n      border: none;\n      border-radius: 12px;\n      padding: 16px;\n      font-size: 16px;\n      font-weight: 800;\n      cursor: pointer;\n      margin-top: 16px;\n      transition: opacity 0.2s;\n      font-family: inherit;\n    }\n\n    .submit-btn:hover { opacity: 0.9; }\n\n    .hint {\n      text-align: center;\n      font-size: 12px;\n      color: #94a3b8;\n      margin-top: 12px;\n      line-height: 1.6;\n    }\n\n    /* \u2500\u2500 SUCCESS \u2500\u2500 */\n    .success { text-align: center; padding: 16px 0; }\n\n    .success-icon {\n      width: 72px; height: 72px;\n      background: #f0fdf4;\n      border-radius: 50%;\n      display: flex; align-items: center; justify-content: center;\n      margin: 0 auto 18px;\n    }\n\n    .success-icon svg { width: 36px; height: 36px; }\n\n    .success h2 {\n      font-size: 22px;\n      font-weight: 900;\n      color: #1e293b;\n      margin-bottom: 8px;\n    }\n\n    .success p {\n      font-size: 14px;\n      color: #64748b;\n      line-height: 1.6;\n      margin-bottom: 22px;\n    }\n\n    .another-btn {\n      width: 100%;\n      background: #f0f4f8;\n      color: #1e40af;\n      border: none;\n      border-radius: 12px;\n      padding: 14px;\n      font-size: 15px;\n      font-weight: 700;\n      cursor: pointer;\n      font-family: inherit;\n    }\n\n    .divider {\n      text-align: center;\n      font-size: 12px;\n      color: #cbd5e1;\n      font-weight: 700;\n      margin: 18px 0;\n      display: flex;\n      align-items: center;\n      gap: 10px;\n    }\n\n    .divider::before, .divider::after {\n      content: '';\n      flex: 1;\n      height: 1px;\n      background: #e2e8f0;\n    }\n\n    .powered {\n      text-align: center;\n      font-size: 11px;\n      color: #cbd5e1;\n      margin-top: 20px;\n      font-weight: 700;\n      letter-spacing: 0.5px;\n    }\n  <\/style>\n<\/head>\n<body>\n  <div class=\"phone-frame\">\n    <div class=\"header\">\n      <div class=\"logo\">VendSmart<\/div>\n      <h1>Help us stock what you want<\/h1>\n      <div class=\"machine-tag\">\n        <div class=\"dot\"><\/div>\n        Main Lobby \u00b7 Purdue Union\n      <\/div>\n    <\/div>\n\n    <div class=\"card\">\n\n      <!-- FORM STEP -->\n      <div class=\"step active\" id=\"step-form\">\n\n        <!-- \u2500\u2500 SECTION 1: ITEMS WE ALREADY HAVE \u2500\u2500 -->\n        <div class=\"fast-section\">\n          <div class=\"fast-title\">\n            \u26a1 We already have these \u2014 vote to stock them here\n          <\/div>\n          <div class=\"fast-sub\">\n            These items are in our warehouse right now. The more votes, the faster we add them to this machine.\n          <\/div>\n\n          <div class=\"fast-item\" id=\"fi-redbull\" onclick=\"voteItem('fi-redbull', 'rb-count', 'rb-ring', 14)\">\n            <div class=\"fast-item-icon\">\ud83d\udc02<\/div>\n            <div class=\"fast-item-info\">\n              <div class=\"fast-item-name\">Red Bull<\/div>\n              <div class=\"fast-item-sub\">Energy drink \u00b7 8.4oz <span class=\"in-stock-badge\">\u2713 In our warehouse<\/span><\/div>\n            <\/div>\n            <div class=\"fast-item-action\">\n              <div class=\"vote-ring\" id=\"rb-ring\">\ud83d\udc4d<\/div>\n              <div class=\"vote-count\" id=\"rb-count\">14 votes<\/div>\n            <\/div>\n          <\/div>\n\n          <div class=\"fast-item\" id=\"fi-doritos\" onclick=\"voteItem('fi-doritos', 'dor-count', 'dor-ring', 9)\">\n            <div class=\"fast-item-icon\">\ud83c\udf3d<\/div>\n            <div class=\"fast-item-info\">\n              <div class=\"fast-item-name\">Doritos Nacho<\/div>\n              <div class=\"fast-item-sub\">Chips \u00b7 1oz bag <span class=\"in-stock-badge\">\u2713 In our warehouse<\/span><\/div>\n            <\/div>\n            <div class=\"fast-item-action\">\n              <div class=\"vote-ring\" id=\"dor-ring\">\ud83d\udc4d<\/div>\n              <div class=\"vote-count\" id=\"dor-count\">9 votes<\/div>\n            <\/div>\n          <\/div>\n\n          <div class=\"fast-item\" id=\"fi-kitkat\" onclick=\"voteItem('fi-kitkat', 'kk-count', 'kk-ring', 6)\">\n            <div class=\"fast-item-icon\">\ud83c\udf6b<\/div>\n            <div class=\"fast-item-info\">\n              <div class=\"fast-item-name\">Kit Kat<\/div>\n              <div class=\"fast-item-sub\">Chocolate bar \u00b7 Standard size <span class=\"in-stock-badge\">\u2713 In our warehouse<\/span><\/div>\n            <\/div>\n            <div class=\"fast-item-action\">\n              <div class=\"vote-ring\" id=\"kk-ring\">\ud83d\udc4d<\/div>\n              <div class=\"vote-count\" id=\"kk-count\">6 votes<\/div>\n            <\/div>\n          <\/div>\n        <\/div>\n\n        <div class=\"divider\">or vote for something new<\/div>\n\n        <!-- \u2500\u2500 SECTION 2: NEW PRODUCT SUGGESTIONS \u2500\u2500 -->\n        <div class=\"trending\">\n          <div class=\"trending-title\">\ud83d\udd25 Others are asking for these<\/div>\n          <div class=\"trending-sub\">Popular requests from other customers \u2014 tap to add your vote.<\/div>\n          <div class=\"trending-grid\">\n            <div class=\"trending-item\" id=\"ti-celsius\" onclick=\"voteTrending('ti-celsius', 'tv-celsius', 31)\">\n              <div class=\"trending-item-name\">Celsius Energy<\/div>\n              <div class=\"trending-votes\" id=\"tv-celsius\">31 votes<\/div>\n            <\/div>\n            <div class=\"trending-item\" id=\"ti-protein\" onclick=\"voteTrending('ti-protein', 'tv-protein', 24)\">\n              <div class=\"trending-item-name\">Protein Bar<\/div>\n              <div class=\"trending-votes\" id=\"tv-protein\">24 votes<\/div>\n            <\/div>\n            <div class=\"trending-item\" id=\"ti-cold\" onclick=\"voteTrending('ti-cold', 'tv-cold', 18)\">\n              <div class=\"trending-item-name\">Cold Brew Coffee<\/div>\n              <div class=\"trending-votes\" id=\"tv-cold\">18 votes<\/div>\n            <\/div>\n            <div class=\"trending-item\" id=\"ti-spark\" onclick=\"voteTrending('ti-spark', 'tv-spark', 15)\">\n              <div class=\"trending-item-name\">Sparkling Water<\/div>\n              <div class=\"trending-votes\" id=\"tv-spark\">15 votes<\/div>\n            <\/div>\n            <div class=\"trending-item\" id=\"ti-chomps\" onclick=\"voteTrending('ti-chomps', 'tv-chomps', 11)\">\n              <div class=\"trending-item-name\">Chomps Stick<\/div>\n              <div class=\"trending-votes\" id=\"tv-chomps\">11 votes<\/div>\n            <\/div>\n            <div class=\"trending-item\" id=\"ti-rxbar\" onclick=\"voteTrending('ti-rxbar', 'tv-rxbar', 8)\">\n              <div class=\"trending-item-name\">RXBAR<\/div>\n              <div class=\"trending-votes\" id=\"tv-rxbar\">8 votes<\/div>\n            <\/div>\n          <\/div>\n        <\/div>\n\n        <div class=\"divider\">don't see it? suggest it below<\/div>\n\n        <!-- \u2500\u2500 SECTION 3: SUGGEST SOMETHING NEW \u2500\u2500 -->\n        <div class=\"new-section\">\n          <div class=\"new-title\">\ud83d\udca1 Suggest something completely new<\/div>\n          <div class=\"new-sub\">Don't see what you want above? Tell us exactly what you'd love to see in this machine.<\/div>\n\n          <div class=\"field-label\">What item?<\/div>\n          <input type=\"text\" id=\"item-input\" placeholder=\"e.g. Bai water, Clif Bar, Sour Patch Kids\u2026\" />\n\n          <div class=\"field-label\">Category<\/div>\n          <div class=\"categories\">\n            <button class=\"cat-btn\" onclick=\"selectCat(this)\">Snack<\/button>\n            <button class=\"cat-btn\" onclick=\"selectCat(this)\">Drink<\/button>\n            <button class=\"cat-btn\" onclick=\"selectCat(this)\">Healthy<\/button>\n            <button class=\"cat-btn\" onclick=\"selectCat(this)\">Other<\/button>\n          <\/div>\n\n          <div class=\"field-label\">Anything else? (optional)<\/div>\n          <textarea placeholder=\"Brand, flavor, size, why you want it\u2026\"><\/textarea>\n\n          <button class=\"submit-btn\" onclick=\"submitForm()\">Submit My Suggestion<\/button>\n        <\/div>\n\n        <p class=\"hint\">Anonymous \u00b7 Takes 20 seconds \u00b7 Helps us stock what you actually want<\/p>\n\n      <\/div>\n\n      <!-- SUCCESS STEP -->\n      <div class=\"step\" id=\"step-success\">\n        <div class=\"success\">\n          <div class=\"success-icon\">\n            <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#16a34a\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n              <polyline points=\"20 6 9 17 4 12\"><\/polyline>\n            <\/svg>\n          <\/div>\n          <h2>Thanks for the input!<\/h2>\n          <p>Your votes and suggestions go directly to the operator. Popular items get stocked faster \u2014 especially the ones already in our warehouse.<\/p>\n          <button class=\"another-btn\" onclick=\"reset()\">Vote on something else<\/button>\n        <\/div>\n      <\/div>\n\n    <\/div>\n\n    <div class=\"powered\">POWERED BY VENDSMART<\/div>\n  <\/div>\n\n  <script>\n    const votedItems = new Set();\n\n    function voteItem(cardId, countId, ringId, base) {\n      if (votedItems.has(cardId)) return;\n      votedItems.add(cardId);\n      const card = document.getElementById(cardId);\n      const count = document.getElementById(countId);\n      const ring = document.getElementById(ringId);\n      card.classList.add('voted');\n      ring.textContent = '\u2713';\n      ring.style.color = '#fff';\n      count.textContent = (base + 1) + ' votes';\n    }\n\n    function voteTrending(cardId, countId, base) {\n      if (votedItems.has(cardId)) return;\n      votedItems.add(cardId);\n      const card = document.getElementById(cardId);\n      const count = document.getElementById(countId);\n      card.classList.add('voted');\n      count.textContent = (base + 1) + ' votes';\n    }\n\n    function selectCat(el) {\n      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));\n      el.classList.add('selected');\n    }\n\n    function submitForm() {\n      const item = document.getElementById('item-input').value.trim();\n      if (!item) {\n        const inp = document.getElementById('item-input');\n        inp.style.borderColor = '#dc2626';\n        inp.focus();\n        setTimeout(() => inp.style.borderColor = '#e2e8f0', 2000);\n        return;\n      }\n      document.getElementById('step-form').classList.remove('active');\n      document.getElementById('step-success').classList.add('active');\n    }\n\n    function reset() {\n      document.getElementById('item-input').value = '';\n      document.getElementById('item-input').style.borderColor = '#e2e8f0';\n      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));\n      document.querySelector('textarea').value = '';\n      document.getElementById('step-success').classList.remove('active');\n      document.getElementById('step-form').classList.add('active');\n    }\n  <\/script>\n<\/body>\n<\/html>\n";
+  var f = document.getElementById('suggestFrame');
+  if (f) { f.srcdoc = SUGGEST_HTML; }
+})();
+</script>
+</body>
+</html>

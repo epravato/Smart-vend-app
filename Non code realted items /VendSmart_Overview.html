@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VendSmart — App Overview</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #1e293b;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── COVER PAGE ── */
+    .cover {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #2563eb 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+      page-break-after: always;
+    }
+
+    .cover-logo {
+      width: 90px; height: 90px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      margin-bottom: 30px;
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+
+    .cover h1 {
+      font-size: 64px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+    }
+
+    .cover .tagline {
+      font-size: 20px;
+      color: rgba(255,255,255,0.75);
+      font-weight: 500;
+      margin-bottom: 48px;
+    }
+
+    .cover-divider {
+      width: 60px; height: 3px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 2px;
+      margin: 0 auto 48px;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 40px;
+      color: rgba(255,255,255,0.8);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .cover-meta span { display: flex; align-items: center; gap: 8px; }
+
+    .cover-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 48px;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 50px;
+    }
+
+    .section {
+      margin-bottom: 56px;
+      page-break-inside: avoid;
+    }
+
+    /* ── HEADERS ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .section-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .section-header .section-sub {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ── INTRO BLOCK ── */
+    .intro-block {
+      background: #f8fafc;
+      border-left: 4px solid #1e40af;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      font-size: 15px;
+      color: #334155;
+      line-height: 1.7;
+    }
+
+    /* ── FEATURE CARDS ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .feature-card h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .dot-icon {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── ROLE BANNER ── */
+    .role-banner {
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .role-banner-icon {
+      font-size: 26px;
+    }
+
+    .role-banner h3 {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .role-banner p {
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    /* ── TAB PILLS ── */
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .tab-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ── FLOW STEPS ── */
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .step-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: #1e40af;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .step-body p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* ── STAT PILLS ── */
+    .stats-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .stat-pill {
+      background: #f0f4ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 10px 16px;
+      text-align: center;
+      min-width: 110px;
+    }
+
+    .stat-pill .val {
+      font-size: 22px;
+      font-weight: 900;
+      color: #1e40af;
+      line-height: 1;
+    }
+
+    .stat-pill .lbl {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* ── ALERT BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-red { background: #fef2f2; color: #dc2626; }
+    .badge-yellow { background: #fffbeb; color: #d97706; }
+    .badge-green { background: #f0fdf4; color: #16a34a; }
+    .badge-blue { background: #eff6ff; color: #1e40af; }
+
+    /* ── SCREEN MOCKUP ── */
+    .screen-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .screen-box-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    /* ── LIST ── */
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .check-list li::before {
+      content: '✓';
+      color: #16a34a;
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── PAGE BREAK ── */
+    .page-break { page-break-before: always; padding-top: 60px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 40px 0 60px;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 40px;
+    }
+
+    /* ── HIGHLIGHT ROW ── */
+    .highlight-row {
+      background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .highlight-row p {
+      font-size: 14px;
+      color: #1e40af;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover { min-height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     COVER PAGE
+════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-logo">📦</div>
+  <h1>VendSmart</h1>
+  <p class="tagline">Smart vending. Simple management.</p>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <span>📱 Mobile App Overview</span>
+    <span>📅 June 2025</span>
+    <span>🔒 Confidential</span>
+  </div>
+  <div class="cover-badge">DEMO BUILD · DUMMY DATA</div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PAGE 1
+════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- WHAT IS VENDSMART -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:22px;">💡</div>
+      <div>
+        <h2>What is VendSmart?</h2>
+        <div class="section-sub">Product summary</div>
+      </div>
+    </div>
+
+    <div class="intro-block">
+      VendSmart is a mobile management platform for vending machine operators. It gives operators a real-time view of their entire fleet — revenue, inventory levels, and alerts — all from one app. It also includes a separate PIN-protected section for delivery couriers, and a customer-facing suggestion page accessed by QR code on the machine.
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4><span class="dot-icon" style="background:#1e40af"></span>For Operators</h4>
+        <p>Monitor every machine's revenue, stock levels, and alerts from a single dashboard. Manage inventory, view sales trends, and control machine details.</p>
+      </div>
+      <div class="feature-card">
+        <h4><span class="dot-icon" style="background:#16a34a"></span>For Couriers</h4>
+        <p>A separate PIN-locked section shows restocking priorities, turn-by-turn directions to each machine, and a checklist to log what was added.</p>
+      </div>
+      <div class="feature-card">
+        <h4><span class="dot-icon" style="background:#d97706"></span>For Customers</h4>
+        <p>A QR code on each machine opens a suggestion page where customers can vote on items they want to see stocked.</p>
+      </div>
+      <div class="feature-card">
+        <h4><span class="dot-icon" style="background:#7c3aed"></span>Hardware-Ready</h4>
+        <p>Designed to connect to Arduino + IR sensor hardware. Currently running on dummy data — real sensor data drops in when the hardware is ready.</p>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-pill">
+        <div class="val">3</div>
+        <div class="lbl">Demo Machines</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">5</div>
+        <div class="lbl">App Sections</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">2</div>
+        <div class="lbl">User Roles</div>
+      </div>
+      <div class="stat-pill">
+        <div class="val">15+</div>
+        <div class="lbl">Screens</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- LOGIN -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:20px;">🔑</div>
+      <div>
+        <h2>Login Screen</h2>
+        <div class="section-sub">Entry point — two separate roles</div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Operator Login</h4>
+        <p>Email and password form. A "Use Demo Account" button auto-fills credentials so vendors can try the app instantly during a demo.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Courier Access</h4>
+        <p>A button at the bottom routes delivery staff to a separate 4-digit PIN screen. The two roles never mix interfaces.</p>
+      </div>
+    </div>
+
+    <div class="highlight-row">
+      <span style="font-size:20px">💬</span>
+      <p>Demo credentials: <strong>demo@vendsmart.com / demo1234</strong> &nbsp;·&nbsp; Courier PIN: <strong>1234</strong></p>
+    </div>
+  </div>
+
+
+  <!-- FLEET DASHBOARD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:20px;">🗺️</div>
+      <div>
+        <h2>Fleet Dashboard</h2>
+        <div class="section-sub">Overview of all machines — first screen after login</div>
+      </div>
+    </div>
+
+    <div class="screen-box">
+      <div class="screen-box-title">Summary Bar — always visible at the top</div>
+      <div class="stats-row" style="margin-bottom:0">
+        <div class="stat-pill"><div class="val">3</div><div class="lbl">Total Machines</div></div>
+        <div class="stat-pill"><div class="val">$111</div><div class="lbl">Revenue Today</div></div>
+        <div class="stat-pill" style="background:#fffbeb;border-color:#fde68a"><div class="val" style="color:#d97706">7</div><div class="lbl">Total Alerts</div></div>
+        <div class="stat-pill" style="background:#fef2f2;border-color:#fecaca"><div class="val" style="color:#dc2626">1</div><div class="lbl">Offline</div></div>
+      </div>
+    </div>
+
+    <ul class="check-list">
+      <li>Each machine card shows name, location, today's revenue, items in stock, and alert count at a glance.</li>
+      <li>Online / Offline status pill — red machines are immediately visible.</li>
+      <li>Yellow alert banner appears on any machine with slots needing restock.</li>
+      <li><strong>Edit Machine Details</strong> button on every card lets the operator update the address, location label, and courier directions without leaving the fleet view.</li>
+      <li>Settings gear (top right) opens the full settings panel.</li>
+    </ul>
+  </div>
+
+</div><!-- end page 1 -->
+
+
+<!-- ════════════════════════════════════════
+     PAGE 2
+════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <!-- MACHINE DETAIL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:20px;">📊</div>
+      <div>
+        <h2>Machine Detail — 5 Tabs</h2>
+        <div class="section-sub">Tap any machine card to enter the full detail view</div>
+      </div>
+    </div>
+
+    <div class="tab-row">
+      <span class="tab-pill" style="background:#eff6ff;color:#1e40af">▦ Dashboard</span>
+      <span class="tab-pill" style="background:#f0fdf4;color:#16a34a">📦 Inventory</span>
+      <span class="tab-pill" style="background:#fffbeb;color:#d97706">📈 Trends</span>
+      <span class="tab-pill" style="background:#fdf4ff;color:#7c3aed">💵 Earnings</span>
+      <span class="tab-pill" style="background:#fef2f2;color:#dc2626">💬 Suggestions</span>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div class="screen-box" style="margin-bottom:12px">
+      <div class="screen-box-title">Tab 1 — Dashboard</div>
+      <ul class="check-list">
+        <li>Live status: Online / Offline with colored indicator</li>
+        <li>Today's revenue, total items in stock, and alert count in large stat cards</li>
+        <li>Alert list shows exactly which slots are empty or running low with red/yellow badges</li>
+        <li>Quick action: reorder link takes operator directly to Costco with one tap</li>
+      </ul>
+    </div>
+
+    <!-- Inventory Tab -->
+    <div class="screen-box" style="margin-bottom:12px">
+      <div class="screen-box-title">Tab 2 — Inventory</div>
+      <ul class="check-list">
+        <li>Every slot listed with current stock vs. capacity and a visual fill bar</li>
+        <li>Blue banner shows how many items the operator already has in their warehouse</li>
+        <li><strong>"Use My Stock"</strong> badge (blue) — item is in the operator's own warehouse; no order needed</li>
+        <li><strong>"Reorder"</strong> badge (green, cart icon) — item not in warehouse; one tap opens an order link</li>
+        <li>Saves operators money by using existing warehouse stock before placing new orders</li>
+      </ul>
+    </div>
+
+    <!-- Trends Tab -->
+    <div class="screen-box" style="margin-bottom:12px">
+      <div class="screen-box-title">Tab 3 — Trends</div>
+      <ul class="check-list">
+        <li>Bar chart: daily sales for the past 7 days — see which days are busiest</li>
+        <li>Bar chart: peak hours — see exactly when customers buy most (8am, 12pm, 6pm, etc.)</li>
+        <li>Helps operators decide when to schedule restocks and what to stock more of</li>
+      </ul>
+    </div>
+
+    <!-- Earnings Tab -->
+    <div class="screen-box" style="margin-bottom:12px">
+      <div class="screen-box-title">Tab 4 — Earnings</div>
+      <ul class="check-list">
+        <li>Month-to-date revenue, last month comparison, this week total, and daily average</li>
+        <li>Items sold this month and average sale price</li>
+        <li>Recent sales log: each transaction shows item name, quantity, time, and revenue</li>
+      </ul>
+    </div>
+
+    <!-- Suggestions Tab -->
+    <div class="screen-box">
+      <div class="screen-box-title">Tab 5 — Suggestions</div>
+      <ul class="check-list">
+        <li>Customer-submitted product suggestions, ranked by vote count</li>
+        <li>Operators can thumbs-up suggestions directly in the app</li>
+        <li>Each suggestion shows category (<span class="badge badge-blue">Snack</span> or <span class="badge badge-green">Drink</span>) and total votes</li>
+        <li><strong>"Order Now"</strong> button links directly to Amazon search for that item</li>
+        <li>"View QR Code" button in the header — show this to customers to get the page URL</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- end page 2 -->
+
+
+<!-- ════════════════════════════════════════
+     PAGE 3
+════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <!-- SETTINGS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:20px;">⚙️</div>
+      <div>
+        <h2>Settings</h2>
+        <div class="section-sub">Accessed via the gear icon on the fleet screen</div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Account</h4>
+        <p><strong>My Profile</strong> — edit name, email, phone, and business name.<br/><strong>Notifications</strong> — toggle alerts for low stock, offline machines, and daily summaries.<br/><strong>Change Password</strong> — security.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Machines</h4>
+        <p><strong>Add Machine</strong> — register a new machine by name, location, and address.<br/><strong>Manage Machines</strong> — view all registered machines.<br/><strong>My Warehouse Inventory</strong> — full inventory management (see below).</p>
+      </div>
+      <div class="feature-card">
+        <h4>Support</h4>
+        <p><strong>Help & Support</strong> — FAQ and contact info.<br/><strong>Rate VendSmart</strong> — links to App Store review.<br/><strong>Terms & Privacy</strong> — legal.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Log Out</h4>
+        <p>Clearly separated at the bottom of the settings list, red text, so operators can't accidentally tap it.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- WAREHOUSE INVENTORY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fdf4; font-size:20px;">🏭</div>
+      <div>
+        <h2>Warehouse Inventory</h2>
+        <div class="section-sub">Settings → My Warehouse Inventory</div>
+      </div>
+    </div>
+
+    <div class="intro-block">
+      Operators often have stock on hand that isn't inside a machine yet. This screen tracks what's in the warehouse so the app can flag "Use My Stock" on the Inventory tab before suggesting a reorder — saving unnecessary purchases.
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Summary Stats</h4>
+        <p>Total units across all items, count of items running low (≤6 units), and count of items fully out of stock — visible at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Search</h4>
+        <p>Filter your inventory list instantly by typing an item name — useful when you have dozens of products.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Quick Quantity Buttons</h4>
+        <p>+/− buttons on each row let operators update quantities with one tap after a delivery, without opening a full edit form.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Add / Edit / Delete</h4>
+        <p>Full CRUD via a modal form. Add item name and quantity, edit existing items, or remove items no longer in stock.</p>
+      </div>
+    </div>
+
+    <div class="tab-row">
+      <span class="badge badge-yellow" style="font-size:12px; padding:5px 12px">⚠ Running Low — ≤6 units</span>
+      <span class="badge badge-red" style="font-size:12px; padding:5px 12px">✕ Out of Stock — 0 units</span>
+    </div>
+  </div>
+
+
+  <!-- EDIT MACHINE DETAILS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#eff6ff; font-size:20px;">✏️</div>
+      <div>
+        <h2>Edit Machine Details</h2>
+        <div class="section-sub">Fleet screen → "Edit Machine Details" on any machine card</div>
+      </div>
+    </div>
+
+    <ul class="check-list">
+      <li><strong>Machine Name</strong> — what appears on all dashboards and courier screens</li>
+      <li><strong>Location Label</strong> — short label like "Purdue Union – 1st Floor" shown on the fleet and courier views</li>
+      <li><strong>Street Address</strong> — fed directly into the Google Maps link couriers use for navigation</li>
+      <li><strong>Finding the Machine</strong> — step-by-step directions from the building entrance to the machine; couriers see this before starting their restock checklist</li>
+      <li>Save button only activates when a change has been made (prevents accidental saves)</li>
+    </ul>
+  </div>
+
+</div><!-- end page 3 -->
+
+
+<!-- ════════════════════════════════════════
+     PAGE 4
+════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <!-- COURIER SECTION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fdf4; font-size:20px;">🚚</div>
+      <div>
+        <h2>Courier Section</h2>
+        <div class="section-sub">PIN-locked area for delivery staff — completely separate from the operator experience</div>
+      </div>
+    </div>
+
+    <div class="role-banner" style="background:#f0fdf4; border:1px solid #bbf7d0">
+      <div class="role-banner-icon">🔒</div>
+      <div>
+        <h3 style="color:#16a34a">Access: 4-Digit PIN</h3>
+        <p style="color:#4b7a5a">Couriers tap "I'm a Courier — Enter PIN" on the login screen. Demo PIN: <strong>1234</strong>. Wrong PIN triggers a red shake animation on the dots.</p>
+      </div>
+    </div>
+
+    <!-- Courier Home -->
+    <div class="screen-box" style="margin-bottom:12px">
+      <div class="screen-box-title">Screen 1 — Courier Home (Machine List)</div>
+      <ul class="check-list">
+        <li>All machines sorted automatically by urgency — most critical at the top</li>
+        <li>
+          Three urgency levels clearly labeled:<br/>
+          <span class="badge badge-red" style="margin-right:6px">● Urgent — 4+ alerts</span>
+          <span class="badge badge-yellow" style="margin-right:6px">● Needs Restock — 2+ alerts</span>
+          <span class="badge badge-green">● All Good</span>
+        </li>
+        <li>Each card shows empty slot count and low slot count so couriers know what to bring</li>
+        <li>Summary row at top: total machines, urgent count, and total alerts across all machines</li>
+        <li>Log Out button (top right) sends the courier back to the main login screen</li>
+      </ul>
+    </div>
+
+    <!-- Courier Restock -->
+    <div class="screen-box">
+      <div class="screen-box-title">Screen 2 — Courier Restock (Per-Machine Checklist)</div>
+      <ul class="check-list">
+        <li><strong>Directions button</strong> — opens Google Maps with the machine's street address; one tap to navigate</li>
+        <li><strong>"Finding the Machine" card</strong> — shows the operator's written instructions for locating the machine inside the building</li>
+        <li>Progress bar updates in real time as the courier checks off slots</li>
+        <li>Each slot shows: slot ID, item name, current stock, how many units are needed to fill it</li>
+        <li>Empty slots are flagged red; low slots flagged yellow so priorities are obvious</li>
+        <li>"Units added" input field for each slot — courier logs exactly what they put in</li>
+        <li>Optional notes field for reporting issues (machine damage, access problems, etc.)</li>
+        <li>Submit button is disabled until every slot is checked — prevents partial reports</li>
+        <li>Success screen shows timestamp, slots restocked count, and machine location for records</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- CUSTOMER SUGGESTION PAGE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#fff7ed; font-size:20px;">📲</div>
+      <div>
+        <h2>Customer Suggestion Page</h2>
+        <div class="section-sub">QR code on the machine → standalone web page</div>
+      </div>
+    </div>
+
+    <div class="intro-block">
+      A QR code printed on the vending machine links to a simple web page where customers can suggest what they want stocked. No app download needed — it works in any browser. Suggestions flow directly into the Suggestions tab in the operator's app.
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Customer scans QR code on the machine</h4>
+          <p>A sticker or printed card on the machine opens the suggestion page in their phone browser.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>They pick a popular item or write their own</h4>
+          <p>Tap popular suggestion chips (e.g. "Celsius", "Protein Bar") or type a custom item. Choose Snack or Drink category.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Optional note — then Submit</h4>
+          <p>They can add a short note ("the cafeteria next door already has Celsius, here you should have…") before submitting.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Operator sees it in the Suggestions tab</h4>
+          <p>Items are ranked by votes. Operators can tap "Order Now" to open an Amazon search for that item immediately.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page 4 -->
+
+
+<!-- ════════════════════════════════════════
+     PAGE 5 — ROADMAP / TECH
+════════════════════════════════════════ -->
+<div class="page page-break">
+
+  <!-- TECH STACK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#fdf4ff; font-size:20px;">⚡</div>
+      <div>
+        <h2>Technology</h2>
+        <div class="section-sub">How it's built</div>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>React Native + Expo</h4>
+        <p>One codebase runs on iPhone, Android, and web browser. Currently demoed in a web browser; ready to publish to the App Store and Google Play.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Dummy Data Layer</h4>
+        <p>All machine data lives in a single file (<code>fake-data/dummyData.js</code>). Swapping in real data from the backend is a one-file change.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Arduino + IR Sensors (Planned)</h4>
+        <p>Hardware reads slot fill levels via IR sensors and pushes data to the app. The app UI is already designed around this data structure.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Firebase Backend (Planned)</h4>
+        <p>Real-time database for live machine data, push notifications for alerts, and cloud sync so multiple operators can share a fleet.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- WHAT'S NEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:#fff7ed; font-size:20px;">🗓️</div>
+      <div>
+        <h2>What's Next</h2>
+        <div class="section-sub">Planned features after the demo</div>
+      </div>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Arduino firmware + hardware integration</h4>
+          <p>IR sensors detect when slots are empty and send real-time data to the app — eliminating manual inventory counting entirely.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Firebase real-time backend</h4>
+          <p>Live data sync across devices. One operator logs a restock and all other team members see updated inventory instantly.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Push notifications</h4>
+          <p>Operators receive alerts the moment a machine goes offline or a slot hits empty — no need to open the app to check.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Multi-operator accounts</h4>
+          <p>Business owners can invite staff members, assign machines to specific operators, and track activity per person.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>App Store launch</h4>
+          <p>The app is built on Expo, meaning it can be submitted to the Apple App Store and Google Play with minimal additional work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- DEMO NOTE -->
+  <div class="highlight-row">
+    <span style="font-size:24px">🎯</span>
+    <p>
+      This build is a <strong>fully interactive demo</strong> running on fake data. Every screen, button, and flow works exactly as it will in the live product. The only thing missing is the real hardware connection — which is being built in parallel.
+    </p>
+  </div>
+
+  <div class="footer">
+    VendSmart &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Built with React Native + Expo &nbsp;·&nbsp; June 2025
+  </div>
+
+</div><!-- end page 5 -->
+
+</body>
+</html>
