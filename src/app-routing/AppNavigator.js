@@ -15,6 +15,8 @@ import CourierLoginScreen from '../screens/courier/CourierLoginScreen';
 import CourierHomeScreen from '../screens/courier/CourierHomeScreen';
 import CourierRestockScreen from '../screens/courier/CourierRestockScreen';
 import EditMachineScreen from '../screens/settings/EditMachineScreen';
+import ManageMachinesScreen from '../screens/settings/ManageMachinesScreen';
+import TermsScreen from '../screens/settings/TermsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +102,16 @@ export default function AppNavigator() {
           name="EditMachine"
           component={EditMachineScreen}
           options={{ title: 'Edit Machine Details', headerBackTitle: 'Back' }}
+        />
+        <Stack.Screen
+          name="ManageMachines"
+          component={ManageMachinesScreen}
+          options={{ title: 'Manage Machines', headerBackTitle: 'Settings' }}
+        />
+        <Stack.Screen
+          name="TermsScreen"
+          component={TermsScreen}
+          options={{ title: 'Terms & Privacy', headerBackTitle: 'Settings' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

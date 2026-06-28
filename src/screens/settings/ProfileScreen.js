@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Alert } from 'react-native';
 
 export default function ProfileScreen() {
   const [name, setName] = useState('Ethan Pravato');
@@ -33,7 +33,7 @@ export default function ProfileScreen() {
           <TextInput style={styles.input} value={company} onChangeText={setCompany} />
         </View>
 
-        <TouchableOpacity style={styles.saveBtn}>
+        <TouchableOpacity style={styles.saveBtn} onPress={() => Alert.alert('Saved', 'Your profile has been updated.')}>
           <Text style={styles.saveBtnText}>Save Changes</Text>
         </TouchableOpacity>
       </ScrollView>

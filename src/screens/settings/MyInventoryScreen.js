@@ -3,10 +3,10 @@ import {
   View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, TextInput, Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { operatorInventory } from '../../fake-data/operatorInventory';
+import { useInventory } from '../../context/InventoryContext';
 
 export default function MyInventoryScreen() {
-  const [inventory, setInventory] = useState(operatorInventory);
+  const { inventory, updateItem, addItem, deleteItem } = useInventory();
   const [modalVisible, setModalVisible] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [newName, setNewName] = useState('');
@@ -37,30 +37,20 @@ export default function MyInventoryScreen() {
   function saveItem() {
     if (!newName.trim() || !newQty.trim()) return;
     if (editingItem) {
-      setInventory(prev => prev.map(i =>
-        i.id === editingItem.id
-          ? { ...i, name: newName.trim(), quantity: parseInt(newQty) || 0, unit: newUnit }
-          : i
-      ));
-    } else {
-      setInventory(prev => [...prev, {
-        id: String(Date.now()),
+      updateItem(editingItem.id, {
         name: newName.trim(),
         quantity: parseInt(newQty) || 0,
         unit: newUnit,
-      }]);
+      });
+    } else {
+      addItem(newName.trim(), newQty, newUnit);
     }
     setModalVisible(false);
   }
 
   function adjustQty(id, delta) {
-    setInventory(prev => prev.map(i =>
-      i.id === id ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
-    ));
-  }
-
-  function deleteItem(id) {
-    setInventory(prev => prev.filter(i => i.id !== id));
+    const item = inventory.find(i => i.id === id);
+    if (item) updateItem(id, { quantity: Math.max(0, item.quantity + delta) });
   }
 
   const totalItems = inventory.reduce((s, i) => s + i.quantity, 0);

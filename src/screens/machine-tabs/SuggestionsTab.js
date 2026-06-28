@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity, StyleSheet, Linking,
+  View, Text, ScrollView, TouchableOpacity, StyleSheet, Linking, Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -22,6 +22,7 @@ const CATEGORY_COLORS = {
 export default function SuggestionsTab({ machine }) {
   const [suggestions, setSuggestions] = useState(initialSuggestions);
   const [voted, setVoted] = useState({});
+  const [qrVisible, setQrVisible] = useState(false);
 
   const sorted = [...suggestions].sort((a, b) => b.votes - a.votes);
 
@@ -36,13 +37,31 @@ export default function SuggestionsTab({ machine }) {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 
+      <Modal visible={qrVisible} transparent animationType="fade">
+        <TouchableOpacity style={styles.modalOverlay} activeOpacity={1} onPress={() => setQrVisible(false)}>
+          <View style={styles.qrModal}>
+            <Text style={styles.qrModalTitle}>Customer Suggestion QR</Text>
+            <Text style={styles.qrModalSub}>{machine.name}</Text>
+            <View style={styles.qrPlaceholder}>
+              <Ionicons name="qr-code" size={140} color="#1e40af" />
+            </View>
+            <Text style={styles.qrModalHint}>
+              Print and attach this to your machine. Customers scan to suggest items.
+            </Text>
+            <TouchableOpacity style={styles.qrCloseBtn} onPress={() => setQrVisible(false)}>
+              <Text style={styles.qrCloseBtnText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       <View style={styles.qrCard}>
         <View style={styles.qrLeft}>
           <Text style={styles.qrTitle}>Customer Suggestions</Text>
           <Text style={styles.qrDesc}>
             Customers scan the QR code on your machine to suggest items they want stocked.
           </Text>
-          <TouchableOpacity style={styles.qrBtn}>
+          <TouchableOpacity style={styles.qrBtn} onPress={() => setQrVisible(true)}>
             <Ionicons name="qr-code-outline" size={16} color="#fff" />
             <Text style={styles.qrBtnText}>View QR Code</Text>
           </TouchableOpacity>
@@ -231,4 +250,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   footerText: { flex: 1, fontSize: 12, color: '#94a3b8', lineHeight: 18 },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 32,
+  },
+  qrModal: {
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    padding: 28,
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 360,
+  },
+  qrModalTitle: { fontSize: 20, fontWeight: '900', color: '#1e293b', marginBottom: 4 },
+  qrModalSub: { fontSize: 14, color: '#64748b', marginBottom: 20 },
+  qrPlaceholder: {
+    backgroundColor: '#eff6ff',
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#bfdbfe',
+  },
+  qrModalHint: { fontSize: 13, color: '#64748b', textAlign: 'center', lineHeight: 20, marginBottom: 20 },
+  qrCloseBtn: {
+    backgroundColor: '#1e40af',
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
+  },
+  qrCloseBtnText: { color: '#fff', fontSize: 15, fontWeight: '800' },
 });

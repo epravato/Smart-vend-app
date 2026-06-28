@@ -1,12 +1,15 @@
 import React from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, Linking, StyleSheet,
+  View, Text, FlatList, TouchableOpacity, Linking, StyleSheet, Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import StatusBadge from '../../shared-ui-pieces/StatusBadge';
-import { operatorInventory } from '../../fake-data/operatorInventory';
+import { useInventory } from '../../context/InventoryContext';
+import { useMachines } from '../../context/MachinesContext';
 
 export default function InventoryTab({ machine }) {
+  const { inventory, useStock } = useInventory();
+  const { restockMachine } = useMachines();
   const sorted = [...machine.slots].sort((a, b) => {
     const score = s => (s.stock === 0 ? 0 : s.stock / s.capacity <= 0.3 ? 1 : 2);
     return score(a) - score(b);
@@ -15,8 +18,28 @@ export default function InventoryTab({ machine }) {
   const needsAction = slot => slot.stock === 0 || slot.stock / slot.capacity <= 0.3;
 
   function getWarehouseStock(slotName) {
-    return operatorInventory.find(
+    return inventory.find(
       i => i.name.toLowerCase() === slotName.toLowerCase() && i.quantity > 0
+    );
+  }
+
+  function handleUseStock(slot, warehouseItem) {
+    const needed = slot.capacity - slot.stock;
+    const available = warehouseItem.quantity;
+    const toUse = Math.min(needed, available);
+    Alert.alert(
+      'Use Warehouse Stock',
+      `Add ${toUse} ${warehouseItem.unit} of ${slot.name} to this machine?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Confirm',
+          onPress: () => {
+            useStock(slot.name, toUse);
+            restockMachine(machine.id, { [slot.id]: String(toUse) });
+          },
+        },
+      ]
     );
   }
 
@@ -85,7 +108,7 @@ export default function InventoryTab({ machine }) {
               <StatusBadge stock={slot.stock} capacity={slot.capacity} />
               {needsAction(slot) && (
                 hasWarehouseStock ? (
-                  <TouchableOpacity style={styles.useStockBtn}>
+                  <TouchableOpacity style={styles.useStockBtn} onPress={() => handleUseStock(slot, warehouseItem)}>
                     <Ionicons name="cube-outline" size={13} color="#1e40af" />
                     <Text style={styles.useStockText}>Use My Stock</Text>
                   </TouchableOpacity>

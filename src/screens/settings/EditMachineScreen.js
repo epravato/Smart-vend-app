@@ -4,9 +4,11 @@ import {
   SafeAreaView, ScrollView, Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useMachines } from '../../context/MachinesContext';
 
 export default function EditMachineScreen({ route, navigation }) {
   const { machine } = route.params;
+  const { updateMachine } = useMachines();
 
   const [name, setName] = useState(machine.name);
   const [location, setLocation] = useState(machine.location);
@@ -14,9 +16,10 @@ export default function EditMachineScreen({ route, navigation }) {
   const [buildingNotes, setBuildingNotes] = useState(machine.buildingNotes || '');
 
   function handleSave() {
+    updateMachine(machine.id, { name, location, address, buildingNotes });
     Alert.alert(
       'Changes Saved',
-      `${name} has been updated. In the live app, this would sync to all couriers instantly.`,
+      `${name} has been updated.`,
       [{ text: 'OK', onPress: () => navigation.goBack() }]
     );
   }

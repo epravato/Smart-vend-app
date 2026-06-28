@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { useMachines } from '../../context/MachinesContext';
 
 const STEPS = ['Enter Details', 'Scan Device', 'Confirm'];
 
 export default function AddMachineScreen({ navigation }) {
+  const { addMachine } = useMachines();
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [deviceId, setDeviceId] = useState('');
 
   function nextStep() {
-    if (step < STEPS.length - 1) setStep(step + 1);
-    else navigation.goBack();
+    if (step < STEPS.length - 1) {
+      setStep(step + 1);
+    } else {
+      addMachine(name, location);
+      navigation.navigate('Fleet');
+    }
   }
 
   return (
