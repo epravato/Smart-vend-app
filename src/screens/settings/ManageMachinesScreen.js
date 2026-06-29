@@ -6,7 +6,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useMachines } from '../../context/MachinesContext';
 
-export default function ManageMachinesScreen() {
+export default function ManageMachinesScreen({ navigation }) {
   const { machines, updateMachine, deleteMachine } = useMachines();
   const [editingMachine, setEditingMachine] = useState(null);
   const [editName, setEditName] = useState('');
@@ -87,6 +87,9 @@ export default function ManageMachinesScreen() {
               <Text style={styles.name}>{item.name}</Text>
               <Text style={styles.location}>{item.location}</Text>
             </View>
+            <TouchableOpacity style={styles.iconBtn} onPress={() => navigation.navigate('EditGrid', { machine: item })}>
+              <Ionicons name="grid-outline" size={20} color="#0d9488" />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.iconBtn} onPress={() => openEdit(item)}>
               <Ionicons name="create-outline" size={20} color="#1e40af" />
             </TouchableOpacity>

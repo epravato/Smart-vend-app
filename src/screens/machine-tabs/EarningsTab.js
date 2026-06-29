@@ -2,9 +2,12 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 export default function EarningsTab({ machine }) {
-  const { earnings } = machine;
-  const pctChange = (((earnings.monthToDate - earnings.lastMonth) / earnings.lastMonth) * 100).toFixed(1);
-  const isUp = earnings.monthToDate >= earnings.lastMonth;
+  const earnings = machine.earnings || {};
+  const recentSales = machine.recentSales || earnings.recentSales || [];
+  const pctChange = earnings.lastMonth
+    ? (((earnings.monthToDate - earnings.lastMonth) / earnings.lastMonth) * 100).toFixed(1)
+    : '0.0';
+  const isUp = (earnings.monthToDate || 0) >= (earnings.lastMonth || 0);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -39,8 +42,12 @@ export default function EarningsTab({ machine }) {
 
       <Text style={styles.sectionTitle}>Recent Sales</Text>
       <View style={styles.salesCard}>
-        {earnings.recentSales.map((sale, i) => (
-          <View key={i} style={[styles.saleRow, i < earnings.recentSales.length - 1 && styles.saleRowBorder]}>
+        {recentSales.length === 0 ? (
+          <View style={styles.saleRow}>
+            <Text style={{ color: '#94a3b8', fontSize: 14 }}>No sales recorded yet</Text>
+          </View>
+        ) : recentSales.map((sale, i) => (
+          <View key={i} style={[styles.saleRow, i < recentSales.length - 1 && styles.saleRowBorder]}>
             <View style={styles.saleLeft}>
               <Text style={styles.saleName}>{sale.item}</Text>
               <Text style={styles.saleTime}>{sale.time} · qty {sale.qty}</Text>

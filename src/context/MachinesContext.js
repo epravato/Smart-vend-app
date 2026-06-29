@@ -68,7 +68,8 @@ export function MachinesProvider({ children }) {
     }
   }
 
-  async function addMachine(name, location) {
+  async function addMachine(name, location, slots = []) {
+    const itemsInStock = slots.reduce((sum, s) => sum + (s.stock || 0), 0);
     const newMachine = {
       id: String(Date.now()),
       name,
@@ -77,9 +78,9 @@ export function MachinesProvider({ children }) {
       buildingNotes: '',
       status: 'online',
       revenueToday: 0,
-      itemsInStock: 0,
+      itemsInStock,
       alerts: 0,
-      slots: [],
+      slots,
       weekSales: [],
       peakHours: [],
       earnings: {

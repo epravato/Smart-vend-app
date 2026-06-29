@@ -17,6 +17,7 @@ import CourierRestockScreen from '../screens/courier/CourierRestockScreen';
 import EditMachineScreen from '../screens/settings/EditMachineScreen';
 import ManageMachinesScreen from '../screens/settings/ManageMachinesScreen';
 import TermsScreen from '../screens/settings/TermsScreen';
+import EditGridScreen from '../screens/settings/EditGridScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -112,6 +113,11 @@ export default function AppNavigator() {
           name="TermsScreen"
           component={TermsScreen}
           options={{ title: 'Terms & Privacy', headerBackTitle: 'Settings' }}
+        />
+        <Stack.Screen
+          name="EditGrid"
+          component={EditGridScreen}
+          options={{ title: 'Edit Grid Layout', headerBackTitle: 'Machines' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

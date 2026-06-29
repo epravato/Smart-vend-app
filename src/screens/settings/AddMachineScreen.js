@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { useMachines } from '../../context/MachinesContext';
+import MachineGridEditor from './MachineGridEditor';
 
-const STEPS = ['Enter Details', 'Scan Device', 'Confirm'];
+const STEPS = ['Enter Details', 'Scan Device', 'Set Up Grid', 'Confirm'];
 
 export default function AddMachineScreen({ navigation }) {
   const { addMachine } = useMachines();
@@ -10,12 +11,13 @@ export default function AddMachineScreen({ navigation }) {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [deviceId, setDeviceId] = useState('');
+  const [slots, setSlots] = useState([]);
 
   function nextStep() {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
-      addMachine(name, location);
+      addMachine(name, location, slots);
       navigation.navigate('Fleet');
     }
   }
@@ -88,6 +90,14 @@ export default function AddMachineScreen({ navigation }) {
         )}
 
         {step === 2 && (
+          <MachineGridEditor
+            initialSlots={slots}
+            onSave={(s) => { setSlots(s); setStep(3); }}
+            onCancel={() => setStep(1)}
+          />
+        )}
+
+        {step === 3 && (
           <View style={styles.form}>
             <Text style={styles.stepTitle}>All Set!</Text>
             <Text style={styles.stepDesc}>Your new machine has been added to your fleet.</Text>
@@ -98,21 +108,23 @@ export default function AddMachineScreen({ navigation }) {
               <Text style={styles.confirmLocation}>{location || 'No location set'}</Text>
               <View style={styles.onlinePill}>
                 <View style={styles.greenDot} />
-                <Text style={styles.onlineText}>Device Connected</Text>
+                <Text style={styles.onlineText}>{slots.length} slots configured</Text>
               </View>
             </View>
           </View>
         )}
 
-        <TouchableOpacity
-          style={[styles.nextBtn, step === 0 && !name && styles.nextBtnDisabled]}
-          onPress={nextStep}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.nextBtnText}>
-            {step === STEPS.length - 1 ? 'Go to Fleet' : 'Continue →'}
-          </Text>
-        </TouchableOpacity>
+        {step !== 2 && (
+          <TouchableOpacity
+            style={[styles.nextBtn, step === 0 && !name && styles.nextBtnDisabled]}
+            onPress={nextStep}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.nextBtnText}>
+              {step === STEPS.length - 1 ? 'Go to Fleet' : 'Continue →'}
+            </Text>
+          </TouchableOpacity>
+        )}
 
       </ScrollView>
     </SafeAreaView>
